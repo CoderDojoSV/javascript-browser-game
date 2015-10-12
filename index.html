@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Javascript Browser Games by CoderDojoSV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Javascript Browser Games</h1>
+      <h2 class="project-tagline">Learning to write a game with JavaScript </h2>
+      <a href="https://github.com/CoderDojoSV/javascript-browser-game" class="btn">View on GitHub</a>
+      <a href="https://github.com/CoderDojoSV/javascript-browser-game/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/CoderDojoSV/javascript-browser-game/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="javascript-introduction--text-based-browser-games-in-javascript" class="anchor" href="#javascript-introduction--text-based-browser-games-in-javascript" aria-hidden="true"><span class="octicon octicon-link"></span></a>JavaScript introduction : Text-based Browser games in JavaScript</h1>
+
+<p>You had a chance to learn a bit about JavaScript in the last session, and the material is available at <a href="http://coderdojosv.github.io/Intro-Web-Series/">http://coderdojosv.github.io/Intro-Web-Series/</a></p>
+
+<p>We are going to use some of the concepts learned in that session, and add to your knowledge with even more tricks.  Because Khan Academy is an excellent environment for <a href="https://www.khanacademy.org/computing/computer-programming">learning JavaScript</a>, and in particular, for learning the graphics programming we will do next week, we will use their environment.  If you prefer another environment (like <a href="http://thimble.mozilla.org">Thimble by Mozilla</a>, <a href="http://codepen.io">CodePen.io</a> or <a href="http://jsbin.com">JSBin</a>) then feel free to continue using that tonight.</p>
+
+<p>In this lesson, we will make two games that run in a browser.  First up is <a href="https://www.khanacademy.org/computer-programming/number-guessing-game/5054838707191808">"the number guessing game"</a>.  Then, we will use that code to form the start of <a href="https://www.khanacademy.org/computer-programming/hangman/5040068583096320">"Hangman"</a></p>
+
+<p>The goal for this session is for you to learn a little more JavaScript by example, and to apply your knowledge to improve the starter code and/or the behavior of the games.    </p>
+
+<h1>
+<a id="background" class="anchor" href="#background" aria-hidden="true"><span class="octicon octicon-link"></span></a>Background</h1>
+
+<p>By now, you should be familiar with Web Development basics enough to understand this HTML code:</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">h1</span>&gt;Number Guessing Game&lt;/<span class="pl-ent">h1</span>&gt;    
+Type a number between 1 and 100 (then press guess)
+&lt;<span class="pl-ent">input</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>guess<span class="pl-pds">"</span></span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>&gt;
+&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>button<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>guess<span class="pl-pds">"</span></span> <span class="pl-e">onClick</span>=<span class="pl-s"><span class="pl-pds">"</span>guessOne()<span class="pl-pds">"</span></span>/&gt;
+&lt;<span class="pl-ent">p</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>message<span class="pl-pds">"</span></span>&gt;<span class="pl-c1">&amp;nbsp;</span>&lt;/<span class="pl-ent">p</span>&gt;</pre></div>
+
+<p>The most important thing to observe from this simple HTML is that a call is made out to JavaScript when the player makes their guess.  In this case, the "guessOne()" function will be called.  </p>
+
+<p>Challenges (optional):</p>
+
+<ol>
+<li>Change the button to use a <code>html &lt;button&gt;</code> tag.<br>
+</li>
+<li>If instead, you want a warmup before diving into JavaScript tonight, then just use CSS to change the appearance (atyle) of the h1 element (maybe to a different font or color)</li>
+</ol>
+
+<h1>
+<a id="javascript" class="anchor" href="#javascript" aria-hidden="true"><span class="octicon octicon-link"></span></a>JavaScript</h1>
+
+<p>Caution! In prior lessons, you may have seen the use of javascript's alert and prompt.  As you learn more, you will find that alerts and prompts are good to avoid.  Some development environments actively disallow them.  Khan Anademy is one that disallows alerts in JavaScript.  Other development environments may run your JavaScript on every key press, and the alert or prompt dialog box can be very annoying.  </p>
+
+<p>So, from this point on, we will send any output to a web page element we prepared for our use.  In this example, we are going to write everything we need to tell the player into the area with the "message" id.</p>
+
+<p>Before diving into the technical details, there's one more thing.  In Khan Academy's site, there is no easy way to have your html call your own javascript that is in a separate file.  (This differs from Thimble and JsBin.)  So, while using Khan Academy, we will go back to the approach of putting the JavaScript code right into the html page.  </p>
+
+<h2>
+<a id="code-snippet-1----declarations" class="anchor" href="#code-snippet-1----declarations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code Snippet 1 -- Declarations</h2>
+
+<p>Let's take a look at the first few lines in our JavaScript for <a href="https://www.khanacademy.org/computer-programming/number-guessing-game/5054838707191808">The Number Guessing Game</a></p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">&lt;</span>script<span class="pl-k">&gt;</span>
+<span class="pl-k">var</span> guessCount <span class="pl-k">=</span> <span class="pl-c1">0</span>;
+<span class="pl-k">var</span> <span class="pl-c1">MAX_GUESSES</span> <span class="pl-k">=</span> <span class="pl-c1">6</span>;
+<span class="pl-k">var</span> randomNumber <span class="pl-k">=</span> <span class="pl-c1">Math</span>.<span class="pl-c1">floor</span>((<span class="pl-c1">Math</span>.<span class="pl-c1">random</span>() <span class="pl-k">*</span> <span class="pl-c1">100</span>) <span class="pl-k">+</span> <span class="pl-c1">1</span>); <span class="pl-c">//picks a random number between 1 and 100</span>
+
+<span class="pl-k">function</span> <span class="pl-en">guessOne</span>(){ ...</pre></div>
+
+<p>The most important thing to observe is that we declared that we have a function called <em><code>javascript guessOne()</code></em>, which is the code that gets called when the guess button is clicked.  We'll talk about that code in a minute.  First, let's talk about variables.</p>
+
+<p>Remember that code is written to tell the computer what to do AND to tell programmers how you are doing it. Using good variable names helps make your code understandable.  Placing the variables in the right place helps, too.<br>
+These variables need to be kept alive between runs of the code, so they are not in the guessOne() function.  This means they are global variables.  You should use as few global variables as possible, and professional developers have ways of not using global variables at all.</p>
+
+<p>What are the variables we declared?</p>
+
+<ol>
+<li>I declared a variable called guessCount.  I'm using a style called CamelCase for ordinary variable names.</li>
+<li>I declared MAX_GUESSES.  I used ALL_UPPERCASE because I want to hint that this is has a constant value, meaning it never changes.  (Also, programmers use _ to separate words because you cannot use - in variable names.) </li>
+<li>I declared randomNumber and used a little bit of math in JavaScript to calculate a random number.<br>
+</li>
+</ol>
+
+<p>Activity: </p>
+
+<ol>
+<li>Change the range for guesses, say from 1 to 1000.  ON THE WEB PAGE, TELL THE PLAYER WHAT THE RANGE IS!!!!!!</li>
+<li>Ask someone at your table to try the game with your new range.</li>
+</ol>
+
+<p>Challenges</p>
+
+<ol>
+<li>Use javascript addEventListener to make the call to guessOne() happen.  If you try tonight's Super Challenge, you will need to do this.  Do a web search for "javascript button addeventlistener onclick".  Don't forget to remove the "onClick" call from the html.</li>
+<li>Change the maximum number of guesses.  What is the lowest number that allows a player making perfect guesses to win for every possible number?  Hint: if the range was 1 to 32, the answer is 5.  If the range is 1 to 1024, the number is 10.</li>
+<li>Use constants to set the range and to give better messages to the player.  (For example, "Your guess is lower than the correct number, but is in range." or "Your guess is higher than the maximum number the answer might be")</li>
+</ol>
+
+<h2>
+<a id="code-snippet-2----the-guessone-function-part-1" class="anchor" href="#code-snippet-2----the-guessone-function-part-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code Snippet 2 -- The guessOne() function, part 1</h2>
+
+<p>Here is the first half of the guessOne() function</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">function</span> <span class="pl-en">guessOne</span>(){
+  <span class="pl-c">// Get a guess from the player</span>
+  <span class="pl-k">var</span> guess <span class="pl-k">=</span> <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">"</span>guess<span class="pl-pds">"</span></span>).<span class="pl-c1">value</span>;
+
+  <span class="pl-k">if</span> (guess <span class="pl-k">==</span> randomNumber){
+    <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">"</span>message<span class="pl-pds">"</span></span>).innerHTML<span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>It took you <span class="pl-pds">"</span></span> <span class="pl-k">+</span>guessCount<span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">"</span> guesses<span class="pl-pds">"</span></span>;
+    <span class="pl-k">return</span>;  <span class="pl-c">// prevents saying 'ran out' if guessed in last round</span>
+  } <span class="pl-k">else</span> <span class="pl-k">if</span> (guess <span class="pl-k">&lt;</span> randomNumber){
+    <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">"</span>message<span class="pl-pds">"</span></span>).innerHTML<span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Guess again. The number is higher than <span class="pl-pds">"</span></span><span class="pl-k">+</span>guess;
+  } <span class="pl-k">else</span> {
+    <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">"</span>message<span class="pl-pds">"</span></span>).innerHTML<span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Guess again. The number is lower than <span class="pl-pds">"</span></span><span class="pl-k">+</span>guess;
+  }
+  guessCount <span class="pl-k">+=</span> <span class="pl-c1">1</span>;
+  ...</pre></div>
+
+<p>Notice that JavaScript pulls the player's guess out of the "guess" field and puts it into the variable named "guess".  This variable is declared inside the guessOne function and will disappear when the guessOne function completes.  </p>
+
+<p>Next, notice the "control logic".  There is an if, an else-if, and a final else (which you can think of as the word "otherwise" if that helps.) </p>
+
+<p>Challenges:</p>
+
+<ol>
+<li>Change the variable name to playerGuess.  Otherwise, the variable 'guess' and the HTML element 'guess' might be confused by someone reading the code.<br>
+</li>
+<li>This code isn't rugged.  The Player can type in anything.  If the player typed in "zombie", the code would show "the number is lower than zombie"  !!   Use Javascript's parseInt function with parenthesis around <code>javascript document.getElementById("guess").value</code> to turn it into a number.  (We were lucky javascript's comparison worked when comparing a string to a number.)</li>
+<li>Use another else if to test if the number is &gt; randomNumber and use the final else to say "I didn't recognize that".  I didn't write this yet, but you may need to check if guess == NaN rather than using the catch-all else.<br>
+</li>
+</ol>
+
+<p>Activity:</p>
+
+<p>A QA engineer ("Quality Assurance") tests other people's code.  Here's a <a href="https://twitter.com/sempf/status/514473420277694465">funny tweet</a>  Be the QA enginner for someone at your table who tries to make the code more rugged.</p>
+
+<h2>
+<a id="code-snippet-3----the-guessone-function-part-2" class="anchor" href="#code-snippet-3----the-guessone-function-part-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code Snippet 3 -- The guessOne() function, part 2</h2>
+
+<p>Here's the rest of the guessOne() function</p>
+
+<div class="highlight highlight-source-js"><pre>...
+  <span class="pl-k">if</span> (guessCount <span class="pl-k">&gt;=</span> <span class="pl-c1">MAX_GUESSES</span>) {
+    <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">"</span>message<span class="pl-pds">"</span></span>).innerHTML<span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Sorry, you ran out of guesses.  The number was <span class="pl-pds">"</span></span> <span class="pl-k">+</span> randomNumber;
+  }
+
+  <span class="pl-c">// Lend a hand by clearing out their last guess</span>
+  <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">"</span>guess<span class="pl-pds">"</span></span>).<span class="pl-c1">value</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>;  
+}    </pre></div>
+
+<p>You know what the first section is doing.. It's checking if the player used up the guesses.  But it is not stopping the game!  Hmm, maybe you should fix that!</p>
+
+<p>The last line is there to be nice to the player.  It clears out their guess.  Otherwise, they have to backspace out their old answer.  Be kind to your users!</p>
+
+<p>Challenge: </p>
+
+<ol>
+<li>Fix the game to stop allowing guesses after the player exceeds the MAX_GUESSES.  Write the code that would end the game.  Tip: you could hide the input field and the guess button.  Do you know which css property affects visibility? </li>
+<li>Improve the game so that the player can start a new game.  Suggestion: create a new function called "startGame" and have startGame set all the global variables.  After you tell the player that they won or lost, either show a "new game" button (easier) or chane the guess button and temporarily change the button handler.  Another game suggestion: keep running counts of wins and losses.<br>
+</li>
+</ol>
+
+<p>Take a moment and have someone else at your table play the game that you wrote.  If they find any bugs, then take a moment to fix them.</p>
+
+<h2>
+<a id="super-challenge" class="anchor" href="#super-challenge" aria-hidden="true"><span class="octicon octicon-link"></span></a>Super Challenge</h2>
+
+<p>Instead of having a "guess" button, you could create a listener on the guess html text input box.  That listener should be assigned to keyboard events and look as each key is pressed.  If it's a number, it's good.  If it's enter, it should call guessOne.  Otherwise, it should reject what the player typed.  Congratulations, Your game is now zombie-proof!!</p>
+
+<h1>
+<a id="the-hangman-game" class="anchor" href="#the-hangman-game" aria-hidden="true"><span class="octicon octicon-link"></span></a>The <a href="https://www.khanacademy.org/computer-programming/hangman/5040068583096320">Hangman</a> game</h1>
+
+<p>The code so far creates a decent structure fo the game "Hangman".  Let's revisit the HTML and put in a few more elements.</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">h1</span>&gt;Hangman!&lt;/<span class="pl-ent">h1</span>&gt;
+Type a letter (then press guess)
+&lt;<span class="pl-ent">input</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>guess<span class="pl-pds">"</span></span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text<span class="pl-pds">"</span></span>&gt;
+&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>button<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>guess<span class="pl-pds">"</span></span> <span class="pl-e">onClick</span>=<span class="pl-s"><span class="pl-pds">"</span>guessOne()<span class="pl-pds">"</span></span>/&gt;
+&lt;<span class="pl-ent">input</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>button<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>quit<span class="pl-pds">"</span></span> <span class="pl-e">onClick</span>=<span class="pl-s"><span class="pl-pds">"</span>quit()<span class="pl-pds">"</span></span>/&gt;
+&lt;<span class="pl-ent">p</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>message<span class="pl-pds">"</span></span>&gt;<span class="pl-c1">&amp;nbsp;</span>&lt;/<span class="pl-ent">p</span>&gt;
+&lt;<span class="pl-ent">p</span>&gt;
+&lt;<span class="pl-ent">font</span> <span class="pl-e">size</span>=<span class="pl-s"><span class="pl-pds">"</span>+3<span class="pl-pds">"</span></span>&gt;&lt;<span class="pl-ent">span</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>answer<span class="pl-pds">"</span></span>&gt;puzzle loading..&lt;/<span class="pl-ent">span</span>&gt;&lt;/<span class="pl-ent">font</span>&gt;
+&lt;/<span class="pl-ent">p</span>&gt;</pre></div>
+
+<p>The most important thing to observe is a new element called "answer".  We will use this to show the player's guess as time goes on.</p>
+
+<p>Challenges:</p>
+
+<ol>
+<li> The "obviously missing" feature in the game you see is the hangman himself.  Prepare for that by adding an HTML element where you will load an image representing the number missed.  Maybe you will want <code>html&lt;img id="hangman"&gt;</code>
+</li>
+<li> Similarly, it is missing an area where you can show the letters that were already guessed.<br>
+</li>
+</ol>
+
+<h2>
+<a id="code-snippet-1----declarations-1" class="anchor" href="#code-snippet-1----declarations-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code Snippet 1 -- Declarations</h2>
+
+<p>Let's take a look at the first few lines in our JavaScript</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">&lt;</span>script<span class="pl-k">&gt;</span>
+<span class="pl-c">// declare three global variables</span>
+
+<span class="pl-c">// Create an array of words-- randomly choose one on init</span>
+<span class="pl-k">var</span> <span class="pl-c1">WORDS</span> <span class="pl-k">=</span> [
+    <span class="pl-s"><span class="pl-pds">"</span>javascript<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>hangman<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>coderdojo<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>games<span class="pl-pds">"</span></span>
+];
+
+<span class="pl-c">// word stores the word we want the player to guess</span>
+<span class="pl-k">var</span> word<span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>;
+<span class="pl-c">// answerArray stores the answer board (starting with all _ and gradually filled in)</span>
+<span class="pl-k">var</span> answerArray <span class="pl-k">=</span> [];</pre></div>
+
+<p>The number game calculated a random number,  This game fetches a random word from the WORDS array.  (ALL_UPPERCASE indicates this never changes for the life of the game.)</p>
+
+<p>Activity</p>
+
+<ol>
+<li>Change the WORDs array to have a few different words.  Ask someone at your table to try the game with your words</li>
+</ol>
+
+<p>Challenges: new features you can add to the game</p>
+
+<ol>
+<li> The huge "obviously missing" item is the hang man himself.  Prepare for that by adding an HTML element where you will load an image representing the number missed.</li>
+<li> Keep an array of letters guessed by the player, so they don't keep guessing the wrong letter again.</li>
+</ol>
+
+<h2>
+<a id="code-snippet-2----game-initialization" class="anchor" href="#code-snippet-2----game-initialization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code Snippet 2 -- Game initialization</h2>
+
+<p>The initialization of the game is moved to a function called init.  Don't forget to call it!</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">function</span> <span class="pl-en">init</span>(){
+  <span class="pl-c">// Pick a random word</span>
+  word <span class="pl-k">=</span> <span class="pl-c1">WORDS</span>[<span class="pl-c1">Math</span>.<span class="pl-c1">floor</span>(<span class="pl-c1">Math</span>.<span class="pl-c1">random</span>() <span class="pl-k">*</span> <span class="pl-c1">WORDS</span>.<span class="pl-c1">length</span>)];
+  <span class="pl-c">// Set up the answer array</span>
+  answerArray <span class="pl-k">=</span> [];
+  <span class="pl-k">for</span> (<span class="pl-k">var</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> word.<span class="pl-c1">length</span>; i<span class="pl-k">++</span>) {
+    answerArray[i] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>_<span class="pl-pds">"</span></span>;
+  }
+  <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">"</span>answer<span class="pl-pds">"</span></span>).innerHTML<span class="pl-k">=</span> answerArray.<span class="pl-c1">join</span>(<span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>);
+  <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">"</span>message<span class="pl-pds">"</span></span>).innerHTML<span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Type a letter then press guess, or press quit to stop playing.<span class="pl-pds">"</span></span>
+}
+init();</pre></div>
+
+<h2>
+<a id="code-snippet-3----the-game-loop" class="anchor" href="#code-snippet-3----the-game-loop" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code Snippet 3 -- The game loop</h2>
+
+<p>So, this is a lot like the number guessing game, except the player is guessing letters.  So, we are comparing strings rather than numbers. </p>
+
+<p>The two other big changes here are that we are manipulating the "correct answer" array as the player gets letters correct, and that we are temporarily storing a message to display to the player after we've processed everything that could happen. </p>
+
+<p>Here's that code</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">function</span> <span class="pl-en">guessOne</span>() {
+    <span class="pl-c">// Get a guess from the player</span>
+    <span class="pl-k">var</span> guess <span class="pl-k">=</span> <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">"</span>guess<span class="pl-pds">"</span></span>).<span class="pl-c1">value</span>;
+    <span class="pl-k">var</span> showThisMessage <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>;
+
+  <span class="pl-k">if</span> (guess.<span class="pl-c1">length</span> <span class="pl-k">!==</span> <span class="pl-c1">1</span>) {
+    showThisMessage <span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>Please enter only a single letter<span class="pl-pds">"</span></span>;
+  } <span class="pl-k">else</span> {
+        <span class="pl-c">// Update the game with the guess</span>
+        <span class="pl-k">var</span> i<span class="pl-k">=</span><span class="pl-c1">0</span>; <span class="pl-c">// an indexer into the array </span>
+        <span class="pl-k">for</span> (<span class="pl-k">var</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> word.<span class="pl-c1">length</span>; i<span class="pl-k">++</span>) {
+            <span class="pl-k">if</span> (word[i] <span class="pl-k">===</span> guess) {
+                answerArray[i] <span class="pl-k">=</span> guess;
+                showThisMessage <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>YES! <span class="pl-pds">"</span></span><span class="pl-k">+</span>guess<span class="pl-k">+</span><span class="pl-s"><span class="pl-pds">"</span> is in the answer<span class="pl-pds">"</span></span>;
+            }
+        }
+        <span class="pl-k">var</span> remaining_letters <span class="pl-k">=</span> <span class="pl-c1">0</span>;
+        <span class="pl-c">// recount the remaining letters</span>
+        <span class="pl-k">for</span> (i <span class="pl-k">=</span> <span class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> word.<span class="pl-c1">length</span>; i<span class="pl-k">++</span>) {
+            <span class="pl-k">if</span> (word[i] <span class="pl-k">===</span> <span class="pl-s"><span class="pl-pds">'</span>_<span class="pl-pds">'</span></span>) {
+                remaining_letters <span class="pl-k">+=</span> <span class="pl-c1">1</span>;
+            }
+        }
+        <span class="pl-k">if</span> (remainingLetters <span class="pl-k">==</span> <span class="pl-c1">0</span>) {
+            showThisMessage <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>YES! You guessed the word<span class="pl-pds">"</span></span>;
+        }
+
+        <span class="pl-k">if</span> (showThisMessage <span class="pl-k">===</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>) {
+            showThisMessage <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Sorry, no <span class="pl-pds">"</span></span><span class="pl-k">+</span>guess;
+        }
+
+        <span class="pl-c">// Update the puzzle</span>
+        <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">"</span>answer<span class="pl-pds">"</span></span>).innerHTML <span class="pl-k">=</span> answerArray.<span class="pl-c1">join</span>(<span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>);
+
+        <span class="pl-c">// Lend a hand by clearing out their last guess</span>
+        <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">"</span>guess<span class="pl-pds">"</span></span>).<span class="pl-c1">value</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>;
+  }
+  <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">"</span>message<span class="pl-pds">"</span></span>).innerHTML <span class="pl-k">=</span> showThisMessage;
+}
+</pre></div>
+
+<p>There are a few noteworthy tricks here.  </p>
+
+<ol>
+<li>JavaScript behaves like all other computer languages when testing numbers, but it is a little strange when testing string values.  (JavaScript frequently deals with Objects, and String is a type of Object.  All Object comparisons are funny, but the stranceness is most visible with Strings)    Fortunately, it introduced object compare operators that act like you would expect, and they use one more = character.  So, use === when testing strings (or anything other than numbers) for equality.  (Any object should be compared using === or !== unless you really know what you are doing.  And the JavaScript guru Douglas Crockford says if you know what you are doing, you will always use === and !==.  )<br>
+</li>
+<li>This code uses quite a stunt for showing the answer string.  The call <code>answerArray.join(" ");</code> will take all the members (the letters) of the answerArray and blast them into a string.  If we supply join() with the space character as the parameter, it will put spaces between each letter for us.  Magically, we can get what we need with little effort.<br>
+</li>
+</ol>
+
+<p>Challenges:</p>
+
+<ol>
+<li> Many of the challenges from the number game are valid for this game, including
+
+<ul>
+<li>restarting the game</li>
+<li>dealing with user errors, like asking for the same letter twice</li>
+<li>using a listener instead of a guess button</li>
+<li>dealing with edge case bugs, like if the word has a space character</li>
+</ul>
+</li>
+<li> Enhancing the game with a hangman graphics </li>
+<li> Ending the game if the player is out of guesses (the hangman was hung!) </li>
+</ol>
+
+<h2>
+<a id="whats-next" class="anchor" href="#whats-next" aria-hidden="true"><span class="octicon octicon-link"></span></a>What's next</h2>
+
+<p>The challenges sections listed some of the things you can do to the code to make it better or more like the real games.</p>
+
+<p>A variant to the number game is to turn it into a game like MasterMind.  In addition to higher and lower, state how many digits are in the right place.  (For example, if the number to guess is "555" and the player guesses 500, say 
+'higher, with one number in the right place')</p>
+
+<p>You could go further and turn it into MasterMind.  Use letters (maybe "just vowels") and look ath the players guess and say how many are present and how many are in the right place.</p>
+
+<p>It's almost inconcieveable that a JavaScript lesson doesn't talk about jQuery, but we're focusing more on the JavaScript language than all features available to web developers.  jQuery makes working with HTML elements much easier.  You could take this code, include jQuery, </p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>Scripts/jquery-1.7.1.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<p>and change the getElementById calls to use the jQuery selector </p>
+
+<div class="highlight highlight-source-js"><pre>$(<span class="pl-s"><span class="pl-pds">"</span>message<span class="pl-pds">"</span></span>).innerHTML <span class="pl-k">=</span> whatever</pre></div>
+
+<p>You could turn this code into a text adventure game <a href="http://domscode.com/2013/05/07/1160/">like this</a> <a href="http://codepen.io/jimwhitfield/full/GpvxXK/">and  running here</a>.  (This code uses jQuery.)  I think I hear a dragon to the east!</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/CoderDojoSV/javascript-browser-game">Javascript Browser Games</a> is maintained by <a href="https://github.com/CoderDojoSV">CoderDojoSV</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
