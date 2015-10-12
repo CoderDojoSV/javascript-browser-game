@@ -1,4 +1,4 @@
-# JavaScript introduction : Text-based Browser games in JavaScript
+# Text-based Browser games in JavaScript
 
 You had a chance to learn a bit about JavaScript in the last session, and the material is available at http://coderdojosv.github.io/Intro-Web-Series/
 
@@ -220,7 +220,7 @@ function guessOne() {
 	var showThisMessage = "";
 	
   if (guess.length !== 1) {
-	showThisMessage ="Please enter only a single letter";
+	  showThisMessage ="Please enter only a single letter";
   } else {
 		// Update the game with the guess
 		var i=0; // an indexer into the array 
@@ -261,7 +261,21 @@ There are a few noteworthy tricks here.
 1. JavaScript behaves like all other computer languages when testing numbers, but it is a little strange when testing string values.  (JavaScript frequently deals with Objects, and String is a type of Object.  All Object comparisons are funny, but the stranceness is most visible with Strings)    Fortunately, it introduced object compare operators that act like you would expect, and they use one more = character.  So, use === when testing strings (or anything other than numbers) for equality.  (Any object should be compared using === or !== unless you really know what you are doing.  And the JavaScript guru Douglas Crockford says if you know what you are doing, you will always use === and !==.  )  
 2. This code uses quite a stunt for showing the answer string.  The call ```answerArray.join(" ");``` will take all the members (the letters) of the answerArray and blast them into a string.  If we supply join() with the space character as the parameter, it will put spaces between each letter for us.  Magically, we can get what we need with little effort.   
 
+## Code Snippet 4 -- Loose Ends
 
+The game also has a quit button.  This is the code (which is also visible on [the project page](https://www.khanacademy.org/computer-programming/hangman/5040068583096320)
+```javascript
+function quit() {
+	document.getElementById("message").innerHTML = "The word was "+word;
+	for (var j = 0; j < word.length; j++) {
+		answerArray[j] = word[j];
+	}
+	// Solve the puzzle
+	document.getElementById("answer").innerHTML = answerArray.join(" ");
+}
+```
+
+## Hangman Finishing thoughts  
 Challenges:
 
 1.  Many of the challenges from the number game are valid for this game, including
@@ -273,7 +287,7 @@ Challenges:
 3.  Ending the game if the player is out of guesses (the hangman was hung!) 
 
 
-## What's next
+# What's next
 
 The challenges sections listed some of the things you can do to the code to make it better or more like the real games.
 
