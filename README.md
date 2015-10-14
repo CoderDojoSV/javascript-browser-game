@@ -233,7 +233,7 @@ function guessOne() {
 		var remaining_letters = 0;
 		// recount the remaining letters
 		for (i = 0; i < word.length; i++) {
-			if (word[i] === '_') {
+			if (answerArray[i] === '_') {
 			    remaining_letters += 1;
 			}
 		}
