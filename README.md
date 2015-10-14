@@ -237,7 +237,7 @@ function guessOne() {
 			    remaining_letters += 1;
 			}
 		}
-		if (remainingLetters == 0) {
+		if (remaining_letters == 0) {
 			showThisMessage = "YES! You guessed the word";
 		}
 
