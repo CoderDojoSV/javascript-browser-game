@@ -2,7 +2,7 @@
 
 You had a chance to learn a bit about JavaScript in the last session, and the material is available at http://coderdojosv.github.io/Intro-Web-Series/
 
-We are going to use some of the concepts learned in that session, and add to your knowledge with even more tricks.  Because Khan Academy is an excellent environment for [learning JavaScript](https://www.khanacademy.org/computing/computer-programming), and in particular, for learning the graphics programming we will do next week, we will use their environment.  If you prefer another environment (like [Thimble by Mozilla](http://thimble.mozilla.org), [CodePen.io](http://codepen.io) or [JSBin](http://jsbin.com)) then feel free to continue using that tonight.
+We are going to use some of the concepts learned in that session, and add to your knowledge with even more tricks. We recommend you use a web-based web-page development app like [Thimble by Mozilla](http://thimble.mozilla.org), [CodePen.io](http://codepen.io) or [JSBin](http://jsbin.com)).
 
 In this lesson, we will make two games that run in a browser.  First up is ["the number guessing game"](https://www.khanacademy.org/computer-programming/number-guessing-game/5054838707191808).  Then, we will use that code to form the start of ["Hangman"](https://www.khanacademy.org/computer-programming/hangman/5040068583096320)
 
